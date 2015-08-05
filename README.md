@@ -1,6 +1,8 @@
 NPO Backstage Examples
 ======================
-This repository contains example code for data from the [NPO Backstage](http://www.npo.nl/specials/backstage) API. Problems with the API and feature requests can also be reported here on the [Issues page](https://github.com/openstate/npo-backstage-examples/issues).
+This repository contains example code for data from the [NPO Backstage](http://www.npo.nl/specials/backstage) API. In the ``python`` folder we currently have examples showing how to search the API and apply facets and filters on fields.
+
+Problems with the API and feature requests can also be reported here on the [Issues page](https://github.com/openstate/npo-backstage-examples/issues).
 
 NPO Backstage is an initiative of [NPO](http://www.npo.nl) in collaboration with [Open State Foundation](http://www.openstate.eu).
 
