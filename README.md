@@ -1,20 +1,15 @@
-npo-backstage-examples
+NPO Backstage Examples
 ======================
-Voorbeelden voor [NPO Backstage](http://www.npo.nl/specials/backstage)
+This repository contains example code for data from the [NPO Backstage](http://www.npo.nl/specials/backstage) API. Problems with the API and feature requests can also be reported here on the [Issues page](https://github.com/openstate/npo-backstage-examples/issues).
 
-NPO Backstage is een initiatief van de [NPO](http://www.npo.nl) in samenwerking met de [Open State Foundation](http://www.openstate.eu).
+NPO Backstage is an initiative of [NPO](http://www.npo.nl) in collaboration with [Open State Foundation](http://www.openstate.eu).
 
 Links
 -----
-- [NPO Backstage Documentatie](http://backstage-docs.openstate.eu/)
-- [@NPOBackstage op Twitter](https://twitter.com/NPOBackstage)
+- [NPO Backstage documentation](http://backstage-docs.npo.nl) (contains amongst others a quickstart guide on how to use the API)
+- [@NPOBackstage on Twitter](https://twitter.com/NPOBackstage)
 
-Tools
------
-- [Postman - REST Client](https://www.google.nl/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CCEQFjAAahUKEwjG3cfew4nGAhVKndsKHYXZAEk&url=https%3A%2F%2Fchrome.google.com%2Fwebstore%2Fdetail%2Fpostman-rest-client%2Ffdmmgilgnpjigdojojpjoooidkmcomcm&ei=V3x6VYbWLcq67gaFs4PIBA&usg=AFQjCNFL71vN61QG0LKlw7VDJvIZDprjHA&sig2=zHaEWj2oeCMwTWfVHwL33g)<br>
-  Handige Chrome add-on voor het werken met API's
-
-Licentie
+License
 --------
-De voorbeeldcode voor het gebruik van de NPO backstage API valt onder de CC0 licentie.<br>
-Houd er rekening mee dat niet het geval is voor de inhoud van de API zelf.
+This NPO Backstage API example code is licensed under CC0.<br>
+Please keep in mind that this license does not apply to the content of the API.
