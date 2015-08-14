@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import codecs
 import os
 import requests
@@ -23,6 +21,9 @@ step_size = 100
 # We use the package 'requests' to download the data
 session = requests.session()
 
+# Keep track of how many subtitles were downloaded for each program
+downloaded_subtitles_counts = []
+
 for program in programs:
     program_dir = data_dir + program
 
@@ -38,6 +39,7 @@ for program in programs:
     # Keep downloading
     metadata_page = 0
     subtitle_count = 0
+    downloaded_subtitles_counter = 0
     while True:
         # Prepare the request
         from_item = step_size * metadata_page
@@ -48,10 +50,10 @@ for program in programs:
         metadata_url = '%s/metadata/search' % (base_url)
 
         print (
-            '\nDownloading metadata, page %s with %s items per page by '
+            '\nDownloading metadata, page %d with %d items per page by '
             'POSTing to URL %s with body %s' % (
-                str(metadata_page + 1),
-                str(step_size),
+                metadata_page + 1,
+                step_size,
                 metadata_url,
                 params
             )
@@ -93,7 +95,8 @@ for program in programs:
                         'Downloaded subtitle (#%s) of prid %s using GET on '
                         'URL %s' % (subtitle_count, prid, subtitle_url)
                     )
-                    with codecs.open('%s/%s.json' % (program_dir, prid),
+                    downloaded_subtitles_counter += 1
+                    with codecs.open('%s/%s.srt' % (program_dir, prid),
                                      'w', 'utf-8') as OUT:
                         OUT.write(subtitle_item['subtitle'])
                 else:
@@ -106,3 +109,8 @@ for program in programs:
 
         # Increase the page counter to download the next page
         metadata_page += 1
+
+    downloaded_subtitles_counts.append((program, downloaded_subtitles_counter))
+
+for program, downloaded_subtitles_counter in downloaded_subtitles_counts:
+    print 'Downloaded %d subtitles for %s' % (downloaded_subtitles_counter, program)
