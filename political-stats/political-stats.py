@@ -5,6 +5,7 @@ import os
 import re
 import json
 from pprint import pprint
+from operator import itemgetter, attrgetter, methodcaller
 
 import requests
 from BeautifulSoup import BeautifulSoup
@@ -12,9 +13,9 @@ from BeautifulSoup import BeautifulSoup
 NPO_BACKSTAGE_BASE_URL = 'http://backstage-api.npo.nl'
 NPO_BACKSTAGE_ENDPOINT_SEARCH = '/v0/search'
 
-def get_politicians():
+def get_politicians(session):
     url = u'http://www.tweedekamer.nl/kamerleden/alle_kamerleden'
-    resp = requests.get(url)
+    resp = session.get(url)
     if resp.status_code != 200:
         return None
 
@@ -26,6 +27,22 @@ def get_politicians():
             'name': row.find('h2').text,
             'party': row.find('img')['alt'].split(u' ')[-1].replace(
                 u'(', u'').replace(u')', u'')
+        }
+        politicians.append(politician)
+    return politicians
+
+def get_exeuctive_office(session):
+    url = u'http://www.rijksoverheid.nl/regering/bewindspersonen'
+    resp = session.get(url)
+    if resp.status_code != 200:
+        return None
+
+    soup = BeautifulSoup(resp.content)
+
+    politicians = []
+    for row in soup.find('div', 'people').findAll('li', recursive=True):
+        politician = {
+            'name': row.find('h2').text,
         }
         politicians.append(politician)
     return politicians
@@ -57,22 +74,27 @@ def get_politician_count(politician, session):
     return response.json()['hits'].get('total', 0)
 
 def run(argv):
-    politicians = get_politicians()
-    parties = list(set([p['party'] for p in politicians]))
-    pprint(politicians)
-    pprint(parties)
-
     # It is a good idea to start a requests session if you are going to
     # make more than one call to the API as it will keep the connection
     # open
     session = requests.session()
 
-    party_counts = [
-        {'party': p, 'count': get_party_count(p, session)} for p in parties]
+    politicians = get_politicians(session)
+    parties = list(set([p['party'] for p in politicians]))
+    pprint(politicians)
+    pprint(parties)
+    executives = get_exeuctive_office(session)
+    pprint(executives)
+
+    party_counts = sorted([
+        {'party': p, 'count': get_party_count(p, session)} for p in parties],
+        key=lambda x: x['count'])
     pprint(party_counts)
 
-    politician_counts = [
-        {'politician': p, 'count': get_politician_count(p, session)} for p in politicians]
+    all_people = politicians + executives
+    politician_counts = sorted([
+        {'politician': p, 'count': get_politician_count(p, session)} for p in all_people],
+        key=lambda x: x['count'])
     pprint(politician_counts)
 
     return 0
