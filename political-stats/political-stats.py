@@ -6,6 +6,7 @@ import re
 import json
 from pprint import pprint
 from operator import itemgetter, attrgetter, methodcaller
+import codecs
 
 import requests
 from BeautifulSoup import BeautifulSoup
@@ -91,11 +92,20 @@ def run(argv):
         key=lambda x: x['count'])
     pprint(party_counts)
 
+    with codecs.open('parties.csv', 'w', 'utf-8') as party_file:
+        print >>party_file, "party,count"
+        for party in party_counts:
+            print >>party_file, "%s,%s" % (party['party'], party['count'],)
+
     all_people = politicians + executives
     politician_counts = sorted([
         {'politician': p, 'count': get_politician_count(p, session)} for p in all_people],
         key=lambda x: x['count'])
     pprint(politician_counts)
+    with codecs.open('politicians.csv', 'w', 'utf-8') as pol_file:
+        print >>pol_file, "politician,count"
+        for pol in politician_counts:
+            print >>pol_file, "%s,%s" % (pol['politician']['name'], pol['count'],)
 
     return 0
 
